@@ -2,6 +2,7 @@ from datetime import datetime
 
 from commons import LOG_LOCATION, LOG_LIMIT
 
+import logging
 
 class LogEvent:
     def __init__(self, parent=None, event_type=None, event_time=None, event_data=None):
@@ -43,16 +44,33 @@ class LogEvent:
         }
 
     def from_line(self, line):
-        self.parent, self.event_type, self.event_time, self.event_data = line.split(',')
-        self.event_time = datetime.strptime(self.event_time, "%Y-%m-%d %H:%M:%S")
+        try:
+            self.parent, self.event_type, self.event_time, self.event_data = line.split(
+                ","
+            )
+            self.event_time = datetime.strptime(self.event_time, "%Y-%m-%d %H:%M:%S")
+        except ValueError as e:
+            logging.error(f"ValueError: {e} occurred for line: {line}")
+            # Optionally, you can re-raise the exception if you want the program to stop on errors
+            raise
         return self
 
     def write(self):
-        rows = open(LOG_LOCATION, 'r').readlines()
-        if len(rows) >= LOG_LIMIT:
-            log_file = open(LOG_LOCATION, 'w')
-            log_file.writelines(rows[1:])
-        else:
-            log_file = open(LOG_LOCATION, 'a')
-        log_file.write(self.to_line())
-        log_file.close()
+        try:
+            # Opening the file in append mode or write mode based on log limit
+            mode = "w" if len(open(LOG_LOCATION, "r").readlines()) >= LOG_LIMIT else "a"
+            with open(LOG_LOCATION, mode) as log_file:
+                # Acquiring an exclusive lock
+                fcntl.flock(log_file, fcntl.LOCK_EX)
+
+                if mode == "w":
+                    rows = open(LOG_LOCATION, "r").readlines()
+                    log_file.writelines(rows[1:])
+                log_file.write(self.to_line())
+
+                # Releasing the lock
+                fcntl.flock(log_file, fcntl.LOCK_UN)
+        except IOError as e:
+            logging.error(f"I/O error({e.errno}): {e.strerror}")
+        except Exception as e:
+            logging.error(f"Unexpected error: {e}")

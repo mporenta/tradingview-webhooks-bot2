@@ -33,10 +33,15 @@ In the image below, this web application is represented by the red box:
 
 ![webapp-tvwb-flask](https://user-images.githubusercontent.com/1986788/226574676-68bc949f-c849-4d3f-a2b2-307bbe72d885.png)
 
+### Installation
+
+If you choose to install TradingBoat using Docker from [https://github.com/PlusGenie/ib-gateway-docker](https://github.com/PlusGenie/ib-gateway-docker), the customized TVWB application will be automatically installed within Docker containers.
+
+If you are new to this customized TVWB, we recommend considering the Docker installation from [https://github.com/PlusGenie/ib-gateway-docker](https://github.com/PlusGenie/ib-gateway-docker) to gain a comprehensive understanding of the application.
+
 
 ### Demo
 Additionally, this is a demo video showcasing the functionality of the web application.
-
 
 
 Web application demo
