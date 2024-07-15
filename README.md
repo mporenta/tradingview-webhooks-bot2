@@ -65,4 +65,4 @@ https://user-images.githubusercontent.com/1986788/226587160-2a24a06d-6346-4f3a-b
 
 * [Decoding TradingView Alerts and Mastering ib_insync: A Comprehensive Guide](https://tbot.plusgenie.com/decoding-tradingview-alerts-and-mastering-ib_insync-a-comprehensive-guide)<br>
 ---
-* [The extensive instructions and invaluable insights, enabling you to effectively leverage TBOT for your trading activities](https://www.udemy.com/course/simple-and-fast-trading-robot-setup-with-docker-tradingview/)
+* [The extensive instructions and invaluable insights, enabling you to effectively leverage TBOT for your trading activities](https://www.udemy.com/course/simple-and-fast-trading-robot-setup-with-docker-tradingview/?referralCode=2447CB04079F504C0167)
