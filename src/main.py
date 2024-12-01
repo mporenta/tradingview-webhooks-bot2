@@ -5,6 +5,7 @@ import os
 import logging
 import tbot
 from flask import Flask, request, jsonify, render_template, Response
+from flask_cors import CORS
 
 from commons import VERSION_NUMBER, LOG_LOCATION
 from components.actions.base.action import am
@@ -24,7 +25,7 @@ registered_events = [register_event(event) for event in REGISTERED_EVENTS]
 registered_links = [register_link(link, em, am) for link in REGISTERED_LINKS]
 
 app = Flask(__name__)
-
+CORS(app)
 # configure logging
 logger = get_logger(__name__)
 
