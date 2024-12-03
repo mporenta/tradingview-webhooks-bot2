@@ -23,7 +23,7 @@ from waitress import serve
 registered_actions = [register_action(action) for action in REGISTERED_ACTIONS]
 registered_events = [register_event(event) for event in REGISTERED_EVENTS]
 registered_links = [register_link(link, em, am) for link in REGISTERED_LINKS]
-
+envKey = os.getenv('TVWB_UNIQUE_KEY',"")
 app = Flask(__name__)
 CORS(app)
 # configure logging
@@ -87,14 +87,14 @@ def webhook():
         triggered_events = []
         for event in em.get_all():
             if event.webhook:
-                if event.key == jsondic_data["key"]:
+                if envKey == jsondic_data["key"]:
                     event.trigger(data=jsondic_data)
                     triggered_events.append(event.name)
 
         if not triggered_events:
-            logger.warning(f"No events triggered for webhook request {jsondic_data}")
+            logger.warning(f"No events triggered for webhook request {jsondic_data} with envKey as {envKey}")
         else:
-            logger.info(f"Triggered events: {triggered_events}")
+            logger.info(f"Triggered events: {triggered_events} with envKey as {envKey}")
             if logger.level <= logging.INFO:
                 logger.info(f"client IP: {request.remote_addr}")
                 if request.environ.get("HTTP_X_FORWARDED_FOR") is None:
